@@ -90,8 +90,8 @@ int compare_names(const void *a, const void *b) {
 }
 
 int compare_time(const void *a, const void *b) {
-    const char filename_a = *(const char *)a;
-    const char filename_b = *(const char *)b;
+    const char *filename_a = *(const char **)a;
+    const char *filename_b = *(const char **)b;
 
     struct stat stat_a, stat_b;
     if (stat(filename_a, &stat_a) == -1 || stat(filename_b, &stat_b) == -1) {
@@ -101,11 +101,10 @@ int compare_time(const void *a, const void *b) {
 
     if (sort_by_access_time) {
         return reverse_order ? difftime(stat_b.st_atime, stat_a.st_atime) : difftime(stat_a.st_atime, stat_b.st_atime);
-} else {
+    } else {
         return reverse_order ? difftime(stat_b.st_mtime, stat_a.st_mtime) : difftime(stat_a.st_mtime, stat_b.st_mtime);
     }
 }
-
 char *human_readable_size_str(off_t size) {
     static const char *suffixes[] = {"B", "KB", "MB", "GB", "TB"};
     int i = 0;
